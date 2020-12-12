@@ -12,18 +12,6 @@ let userRepoCount = 0;
 let searchUser = document.getElementById('searchUser');
 
 
-function userReady(e){
-    
-    console.log(setTimeout(function(){
-        if(e == searchUser.value){
-            
-            return true;
-            
-        }
-    },2000))
-    
-}
-
 //Event Listener for search
 searchUser.addEventListener('keyup', function(e){
     let userText = e.target.value;
@@ -32,7 +20,7 @@ searchUser.addEventListener('keyup', function(e){
             search(userText);
             
         }
-    },500)
+    },250)
 })
                             
 function search(userText){
