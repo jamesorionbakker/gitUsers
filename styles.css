@@ -11,8 +11,9 @@ a {
     left: 0px;
     width: 490px;
     height: 205px;
-    background-image: url(images/top-left.svg);
+    background-image: url(images/top-left2.svg);
     z-index: 10000;
+    pointer-events: none;
 }
 
 .top-right {
@@ -41,7 +42,7 @@ img.top-middle {
     height: 46px;
     border: 0px;
     border-radius: 0px;
-    box-shadow: 2px 2px 10px #60A3D9;
+    box-shadow: 2px 2px 10px #A9BFD1;
 }
 .main-card {
     box-shadow: 2px 2px 10px #DDD;

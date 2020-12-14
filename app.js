@@ -22,7 +22,9 @@ searchUser.addEventListener('keyup', function(e){
         }
     },250)
 })
-                            
+
+search('Github');
+
 function search(userText){
     //get input text
 
