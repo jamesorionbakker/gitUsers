@@ -51,6 +51,7 @@ function search(userText){
 
 document.querySelector('#profile').addEventListener('click',function(e){
     if(e.target.id === 'loadMore'){
+        document.getElementById('loadMore').innerHTML = `<img src="images/load.svg">`;
         gitHub.getUser(searchUser.value,(repoDispCount / 5) + 1)
         .then(data => {
                 if (data.profile.message === 'Not Found') {
