@@ -1,75 +1,66 @@
 //init gitHub
-const gitHub = new GitHub;
+const gitHub = new GitHubFetch;
 
 //init ui
 const ui = new UI;
 
-let repoDispCount = 0;
-let userRepoCount = 0;
+//get search field from html and assign to var
+let searchInput = document.getElementById('searchInput');
 
-//Search Input
-
-let searchUser = document.getElementById('searchUser');
-
-
-//Event Listener for search
-searchUser.addEventListener('keyup', function(e){
+//Event Listener for search field key-up event.  If user presses key and does not press another key for 500ms, function 'getUser' will be called
+searchInput.addEventListener('keyup', (e) => {
     let userText = e.target.value;
-     setTimeout(function(){
-        if(userText === searchUser.value){
-            search(userText);
-            
+    setTimeout(function () {
+        if (userText === searchInput.value) {
+            getUser(userText);
         }
-    },250)
+    }, 500)
 })
 
-search('Github');
+//search github user
+function getUser(userText) {
 
-function search(userText){
-    //get input text
-
-    repoDispCount = 0;
-
+    //if user text is not blank, fetch user information from github API.
     if (userText != '') {
         gitHub.getUser(userText)
+            //once fetch is complete check if user was found.
             .then(data => {
+                //if user not found, call showAlert function
                 if (data.profile.message === 'Not Found') {
-                    //show alert
                     ui.showAlert('Profile not found')
-                } else {
+                } 
+                // otherwise call functions to show profile and repos
+                else {
                     //show profile
-                    ui.showProfile(data.profile);
-                    ui.showRepos(data.repos, data.profile.public_repos);
+                    ui.printProfile(data.profile);
+                    ui.printRepos(data.repos, data.profile.public_repos);
                 }
             })
-    } else {
-        ui.clearProfile();
-        //clear profile
+    } 
+    // if search field is blank call clearPage function
+    else {
+        ui.clearPage();
     }
 
 }
 
-//Event Listener for load button
+//Event Listener for load more button. Since load more button is dynamically loaded, event delegation is used
 
-document.querySelector('#profile').addEventListener('click',function(e){
-    if(e.target.id === 'loadMore'){
+document.querySelector('#profile').addEventListener('click', (e) => {
+    if (e.target.id === 'loadMore') {
         document.getElementById('loadMore').innerHTML = `<img src="images/load.svg">`;
-        gitHub.getUser(searchUser.value,(repoDispCount / 5) + 1)
-        .then(data => {
+        
+        //divide number of repos currently loaded by number of repos to be loaded + 1.  This determines which page number to request from github API
+        gitHub.getUser(searchInput.value, (ui.repoDispCount / gitHub.repos_toLoad) + 1)
+            .then(data => {
                 if (data.profile.message === 'Not Found') {
-                    //show alert
-                    ui.showAlert('Profile not found')
+                    //show alert if profile not found
+                    ui.showAlert('There was an issue loading more repos')
                 } else {
-                    //show profile
-                    ui.loadRepos(data.repos, data.profile.public_repos);
+                    // call printMoreRepos function
+                    ui.printMoreRepos(data.repos, data.profile.public_repos);
                 }
             })
     };
 })
 
-//calculte amount of repos displayed
-async function incrementDisplayCount(x,y){
-    userRepoCount = y;
-    repoDispCount += x;
-    return repoDispCount;
-}
