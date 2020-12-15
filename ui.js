@@ -19,7 +19,7 @@ class UI {
                 <div class="row">
                     <div class="col-md-3">
                         <img src="${user.avatar_url}" alt="" class="img-fluid mb-2 avatar-img">
-                        <a href="${user.html_ur}" target="_blank" class="profile-button btn btn-primary btn-block mb-4">View Profile</a>
+                        <a href="${user.html_url}" target="_blank" class="profile-button btn btn-primary btn-block mb-4">View Profile</a>
                     </div>
                     <div class="col-md-9">
                             <span class="badge ">Repos: ${user.public_repos}</span>
